@@ -1,47 +1,31 @@
 import streamlit as st
-import requests
-from bs4 import BeautifulSoup
 
-def search_solution(query):
-    # Fazer uma pesquisa no Google
-    search_url = f"https://www.google.com/search?q={query}+solução"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    try:
-        # Realizar a requisição para o Google
-        response = requests.get(search_url, headers=headers, timeout=5)
+# Base interna com perguntas e respostas
+respostas = {
+    "como corrigir erro de conexão wi-fi": "Para corrigir problemas de conexão Wi-Fi, tente reiniciar o roteador, verificar as configurações de rede e garantir que o driver da sua placa de rede esteja atualizado.",
+    "como resolver erro de compilação no python": "Verifique se você instalou as dependências corretamente, se a versão do Python é compatível com o código e se não há erros de sintaxe no código.",
+    "como corrigir erro de tela azul no windows": "Tente reiniciar o computador, verifique se há atualizações de drivers e, se o problema persistir, você pode tentar restaurar o sistema para um ponto anterior.",
+    "como configurar uma rede vpn": "Para configurar uma VPN, você precisa de um serviço de VPN, configurar as credenciais e usar um software de cliente VPN para se conectar à rede segura.",
+    "como melhorar o desempenho do computador": "Você pode melhorar o desempenho do seu computador desinstalando programas desnecessários, limpando arquivos temporários e considerando upgrades de hardware, como mais memória RAM ou um SSD."
+}
 
-        if response.status_code == 200:
-            soup = BeautifulSoup(response.text, "html.parser")
+# Título da aplicação
+st.title("💻 Chatbot de Suporte Técnico Simplificado")
 
-            # Procurar por snippets (resultados relevantes)
-            snippets = soup.find_all("div", class_="BNeawe s3v9rd AP7Wnd")
-            
-            results = []
-            for snippet in snippets[:3]:  # Mostrar os 3 primeiros resultados
-                text = snippet.get_text()
-                if len(text) > 50:  # Garantir que o texto tenha tamanho suficiente
-                    results.append(text)
-            
-            if results:
-                return "\n\n".join(results)
-            else:
-                return "Não encontrei soluções relevantes nos resultados de pesquisa."
-        else:
-            return f"Erro ao acessar o Google. Status code: {response.status_code}"
-
-    except requests.exceptions.RequestException as e:
-        return f"Ocorreu um erro: {e}"
-
-# Configuração do Streamlit
-st.title("💻 Chatbot de Suporte Técnico")
+# Caixa de texto para o usuário descrever seu problema
 user_input = st.text_input("Descreva seu problema técnico:")
 
+# Quando o botão for clicado, busca pela solução na base interna
 if st.button("Buscar Solução"):
     if user_input:
-        # Buscar solução no Google
-        response = search_solution(user_input)
-        st.write("### Soluções encontradas:")
-        st.write(response)
+        # Converter para minúsculas e procurar uma resposta
+        user_input = user_input.lower()
+        resposta = respostas.get(user_input, "Desculpe, não encontrei uma solução para o seu problema. Tente novamente com outra descrição.")
+        
+        # Exibe a resposta
+        st.write("### Solução encontrada:")
+        st.write(resposta)
     else:
         st.warning("Por favor, insira um problema para buscar uma solução.")
+
 
