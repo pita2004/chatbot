@@ -27,4 +27,3 @@ if st.button("Enviar"):
         st.write(f"Resposta: {resposta}")
     else:
         st.write("Por favor, digite uma pergunta.")
-
