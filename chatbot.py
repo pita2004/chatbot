@@ -5,13 +5,16 @@ import streamlit as st
 openai.api_key = 'sua-chave-api'
 
 def responder_pergunta(pergunta):
-    response = openai.Completion.create(
-        model="text-davinci-003",  # Ou outro modelo, como GPT-4
-        prompt=pergunta,
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",  # Ou o modelo GPT-4 se você tiver acesso
+        messages=[
+            {"role": "system", "content": "Você é um assistente útil."},
+            {"role": "user", "content": pergunta}
+        ],
         temperature=0.7,
         max_tokens=150
     )
-    return response.choices[0].text.strip()
+    return response['choices'][0]['message']['content'].strip()
 
 # Configuração do Streamlit
 st.title("Assistente de IA")
@@ -27,3 +30,4 @@ if st.button("Enviar"):
         st.write(f"Resposta: {resposta}")
     else:
         st.write("Por favor, digite uma pergunta.")
+
