@@ -2,10 +2,10 @@ import streamlit as st
 import requests
 from bs4 import BeautifulSoup
 
-# Função para buscar soluções na web (usando scraping simples)
+# Função para buscar soluções diretamente no Stack Overflow
 def buscar_solucao(query):
-    # URL de pesquisa do Google (ou outra página pública)
-    search_url = f"https://www.google.com/search?q={query}+solução+problema+site:stackoverflow.com"
+    # URL de pesquisa no Stack Overflow
+    search_url = f"https://stackoverflow.com/search?q={query.replace(' ', '+')}"
     
     headers = {"User-Agent": "Mozilla/5.0"}
     response = requests.get(search_url, headers=headers)
@@ -14,14 +14,14 @@ def buscar_solucao(query):
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "html.parser")
         
-        # Encontrar os snippets da resposta no Google (parte do HTML da página de resultados)
-        snippets = soup.find_all("div", class_="BNeawe iBp4i AP7Wnd")
+        # Encontrar os snippets das perguntas mais relevantes
+        questions = soup.find_all("div", class_="result-link")
         
         results = []
-        for snippet in snippets[:3]:  # Pega os 3 primeiros resultados
-            text = snippet.get_text()
-            if len(text) > 50:
-                results.append(text)
+        for question in questions[:3]:  # Pega as 3 primeiras perguntas
+            title = question.find("a").get_text(strip=True)
+            link = "https://stackoverflow.com" + question.find("a")["href"]
+            results.append(f"**Título**: {title}\n**Link**: {link}")
         
         # Exibe as soluções encontradas
         if results:
