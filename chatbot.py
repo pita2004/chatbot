@@ -43,3 +43,4 @@ if st.button("Buscar Solução"):
         st.write(resposta)
     else:
         st.warning("Por favor, insira um problema para buscar uma solução.")
+
