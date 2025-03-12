@@ -45,7 +45,7 @@ def encontrar_palavras_chave(pergunta):
 # Função principal do chatbot
 def chatbot():
     # Título da aplicação no Streamlit
-    st.title("Chatbot de Suporte Técnico")
+    st.title("somzi chat bot")
     st.write("Bem-vindo! Pergunte sobre problemas técnicos de computadores e impressoras.")
 
     # Caixa de texto onde o utilizador digita a pergunta
