@@ -4,10 +4,10 @@ import pandas as pd
 # Carregar o dataset
 df = pd.read_csv("dataset.csv", encoding="utf-8")
 
-# Função para obter resposta
+# Função para obter resposta baseada em palavras-chave
 def obter_resposta(pergunta):
     for i, row in df.iterrows():
-        if row["pergunta"].lower() in pergunta.lower():
+        if any(palavra.lower() in pergunta.lower() for palavra in row["pergunta"].split()):
             return row["resposta"]
     return "Não encontrei uma solução para esse problema. Tenta reformular a pergunta."
 
