@@ -1,4 +1,8 @@
-tensorflow	
-streamlit	
-numpy	
-pickle-mixin
+import numpy as np
+import tensorflow as tf
+import streamlit as st
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+import pickle
+import json
+
