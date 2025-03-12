@@ -9,7 +9,7 @@ def obter_resposta(pergunta):
     for i, row in df.iterrows():
         if any(palavra.lower() in pergunta.lower() for palavra in row["pergunta"].split()):
             return row["resposta"]
-    return "Não encontrei uma solução para esse problema. Tenta reformular a pergunta."
+    return "Não encontrei uma solução para esse problema. Tente reformular a pergunta."
 
 # Função para adicionar nova pergunta e resposta
 def adicionar_pergunta_resposta(nova_pergunta, nova_resposta):
@@ -34,4 +34,6 @@ if nova_pergunta and nova_resposta:
 
 if pergunta:
     resposta = obter_resposta(pergunta)
-    st.write("🔧 Solução:", resposta)
+    if resposta:
+        st.write("🔧 Solução:", resposta)
+
