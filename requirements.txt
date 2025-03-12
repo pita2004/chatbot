@@ -1,5 +1,6 @@
 streamlit
 numpy
-tensorflow
 pandas
+tensorflow
 scikit-learn
+nltk
